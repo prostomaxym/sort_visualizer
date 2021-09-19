@@ -1,16 +1,20 @@
-#ifndef SORT_VISUALIZER_WINDOW_H
-#define SORT_VISUALIZER_WINDOW_H
+#ifndef SORT_VISUALIZER_WINDOW_H_
+#define SORT_VISUALIZER_WINDOW_H_
 
 #include <string>
 #include <glut.h>
-class window
+
+#include "Sort.h"
+
+class Window
 {
 public:
-	window();
-	window(int w, int h, std::string winname);
+	Window();
+	Window(int w, int h, std::string winname);
 private:
+	friend class Sort;
 	int width, hight;
 	std::string window_name;
 };
-#endif  // SORT_VISUALIZER_WINDOW_H
+#endif  // SORT_VISUALIZER_WINDOW_H_
 

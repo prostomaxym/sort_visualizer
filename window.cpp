@@ -1,6 +1,6 @@
 #include "window.h"
 
-window::window()
+Window::Window()
 {
 	this->width = 1280;
 	this->hight = 720;
@@ -13,7 +13,7 @@ window::window()
 	gluOrtho2D(0, this->width, 0, this->hight);
 }
 
-window::window(int w, int h, std::string winname)
+Window::Window(int w, int h, std::string winname)
 {
 	this->width = w;
 	this->hight = h;

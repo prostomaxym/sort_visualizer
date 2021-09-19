@@ -1,19 +1,37 @@
+#include <ctime>
+
 #include <glut.h>
 
-#include "window.h"
+#include "Sort.h"
+#include "Window.h"
 
 void gameloop(int);
 void render();
 void update();
-void keyboard(int key, int a, int b);
+void specialKeyHandler(int key, int a, int b);
+void normalKeyHandler(unsigned char key, int x, int y);
 
-window win(1280, 720,"Sorting algorithms visualizer");
+Window win(1280, 720,"Sorting algorithms visualizer");
+Sort arr(200,500);
+
+bool sorting = false;
+
+enum class SortingAlg
+{
+	BUBBLE,
+	MERGE,
+	RESET
+}mode;
 
 int main()
 {
+	srand(time(NULL));
+
+	//arr.bubbleSort();
 	glutDisplayFunc(render);
-	glutTimerFunc(50, gameloop, 0);
-	glutSpecialFunc(keyboard);
+	glutTimerFunc(10, gameloop, 0);
+	glutSpecialFunc(specialKeyHandler);
+	glutKeyboardFunc(normalKeyHandler);
 
 	//Game loop
 	glutMainLoop();
@@ -24,24 +42,49 @@ void gameloop(int=0)
 {
 	render();
 	update();
-	glutTimerFunc(50, gameloop, 0);
+	glutTimerFunc(10, gameloop, 0);
 }
 
 void render()
 {
 	glClearColor(0.8, 0.8, 0.8, 1);
 	glClear(GL_COLOR_BUFFER_BIT);
+
+	arr.drawArray();
 	glFlush();
 }
 
 void update()
 {
-
+	if (sorting && (mode==SortingAlg::BUBBLE))
+	{
+		sorting=arr.bubbleSortTick();
+	}
 }
 
-void keyboard(int key, int a, int b)
+void specialKeyHandler(int key, int a, int b)
 {
 	switch (key)
 	{
+	default:
+		break;
+	}
+}
+
+void normalKeyHandler(unsigned char key, int x, int y)
+{
+	switch (key)
+	{
+	case 49:
+		sorting = true;
+		mode = SortingAlg::BUBBLE;
+		break;
+	case 50:
+		sorting = true;
+		mode = SortingAlg::MERGE;
+		break;
+	case 'r':
+		mode = SortingAlg::RESET;
+		break;
 	}
 }
