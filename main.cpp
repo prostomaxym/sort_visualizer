@@ -1,20 +1,16 @@
 #include <glut.h>
 
+#include "window.h"
 
 void gameloop(int);
 void render();
 void update();
 void keyboard(int key, int a, int b);
 
+window win(1280, 720,"Sorting algorithms visualizer");
+
 int main()
 {
-	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
-	glutInitWindowSize(1280, 720);
-	glutCreateWindow("Sorting algorithms visualizer");
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	gluOrtho2D(0, 1280, 0,720);
-
 	glutDisplayFunc(render);
 	glutTimerFunc(50, gameloop, 0);
 	glutSpecialFunc(keyboard);
