@@ -3,6 +3,7 @@
 #include <glut.h>
 
 #include "Sort.h"
+#include "Text.h"
 #include "Window.h"
 
 void gameloop(int);
@@ -11,8 +12,11 @@ void update();
 void specialKeyHandler(int key, int a, int b);
 void normalKeyHandler(unsigned char key, int x, int y);
 
-Window win(1280, 720,"Sorting algorithms visualizer");
-Sort arr(200,500);
+Window win(1280, 720, "Sorting algorithms visualizer");
+
+//(unsigned size, unsigned max_value, int xcoord, int ycoord, float xscale, float yscale)
+Sort arr(200, 500, 50, 100, 1, 1);
+Text txt;
 
 bool sorting = false;
 
@@ -25,9 +29,9 @@ enum class SortingAlg
 
 int main()
 {
-	srand(time(NULL));
+	srand(time(NULL)); // set random seed
 
-	//arr.bubbleSort();
+	//GLut func initialization
 	glutDisplayFunc(render);
 	glutTimerFunc(10, gameloop, 0);
 	glutSpecialFunc(specialKeyHandler);
@@ -51,6 +55,7 @@ void render()
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	arr.drawArray();
+	txt.drawOperationCount(arr.getOperationCounter(),20,680, arr.getArraySize());
 	glFlush();
 }
 
@@ -84,6 +89,7 @@ void normalKeyHandler(unsigned char key, int x, int y)
 		mode = SortingAlg::MERGE;
 		break;
 	case 'r':
+		sorting = false;
 		mode = SortingAlg::RESET;
 		break;
 	}

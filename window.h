@@ -2,6 +2,7 @@
 #define SORT_VISUALIZER_WINDOW_H_
 
 #include <string>
+
 #include <glut.h>
 
 #include "Sort.h"
@@ -12,8 +13,8 @@ public:
 	Window();
 	Window(int w, int h, std::string winname);
 private:
-	friend class Sort;
-	int width, hight;
+	friend class Text;
+	int width, hight; //window resolution
 	std::string window_name;
 };
 #endif  // SORT_VISUALIZER_WINDOW_H_
