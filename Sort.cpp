@@ -7,29 +7,48 @@ Sort::Sort()
 		this->arr.push_back(rand() % 100);
 	}
 	this->n = arr.size();
-	this->operation_counter = 0;
-	this->i = 1;
-	this->x_scale = 1;
-	this->y_scale = 1;
+	this->arr_size = arr.size();
+	this->max_value = 100;
 	this->x = 50;
 	this->y = 100;
+	this->x_scale = 1;
+	this->y_scale = 1;
+
+	this->i = 1;
+	this->operation_counter = 0;
 }
 
-Sort::Sort(unsigned size, unsigned max_value, int xcoord, int ycoord, float xscale, float yscale)
+Sort::Sort(unsigned size, unsigned maxvalue, int xcoord, int ycoord, float xscale, float yscale)
 {
 	for (unsigned i = 0; i < size; i++)
 	{
-		this->arr.push_back(rand() % max_value);
+		this->arr.push_back(rand() % maxvalue);
 	}
 	this->n = arr.size();
-	this->operation_counter = 0;
-	this->i = 1;
-	this->x_scale = xscale;
-	this->y_scale = yscale;
+	this->arr_size = arr.size();
+	this->max_value = maxvalue;
 	this->x = xcoord;
 	this->y = ycoord;
+	this->x_scale = xscale;
+	this->y_scale = yscale;
+
+	this->i = 1;
+	this->operation_counter = 0;
 }
 
+void Sort::reshuffleArray()
+{
+	this->arr.clear();
+
+	this->n = this->arr_size;
+	this->operation_counter = 0;
+	this->i = 1;
+
+	for (unsigned i = 0; i < this->arr_size; i++)
+	{
+		this->arr.push_back(rand() % this->max_value);
+	}
+}
 bool Sort::bubbleSortTick()
 {
 	bool swapped = false;
@@ -44,12 +63,20 @@ bool Sort::bubbleSortTick()
 		}
 		this->i++;
   }
-	if (swapped == false)
+
+	if (std::is_sorted(arr.begin(), arr.end()))
+	{
+		return false;
+	}
+	else if (swapped == false)
 	{
 		this->i = 1;
 		this->n--;
 	}
-	return !(std::is_sorted(arr.begin(), arr.end()));
+	else
+	{
+		return true;
+	}
 }
 
 void Sort::drawArray()

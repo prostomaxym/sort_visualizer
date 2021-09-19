@@ -1,5 +1,7 @@
 #include <ctime>
 
+#include <string>
+
 #include <glut.h>
 
 #include "Sort.h"
@@ -12,20 +14,38 @@ void update();
 void specialKeyHandler(int key, int a, int b);
 void normalKeyHandler(unsigned char key, int x, int y);
 
+/*initialization params - (Width resolusion, Hight resolusion, window name)*/
 Window win(1280, 720, "Sorting algorithms visualizer");
 
-//(unsigned size, unsigned max_value, int xcoord, int ycoord, float xscale, float yscale)
+/*initialization params - (unsigned array_size, unsigned max_value, 
+	int xcoord, int ycoord, float x_scale, float y_scale)*/
 Sort arr(200, 500, 50, 100, 1, 1);
 Text txt;
 
 bool sorting = false;
+int sorting_speed = 1;
 
+//Toggle sorting algorithm
 enum class SortingAlg
 {
 	BUBBLE,
 	MERGE,
-	RESET
-}mode;
+	RESET,
+	STOP
+};
+SortingAlg mode = SortingAlg::RESET;
+
+inline std::string enumToString(SortingAlg alg)
+{
+	switch (alg)
+	{
+	case SortingAlg::BUBBLE:   return "Bubble sort";
+	case SortingAlg::MERGE:   return "Merge sort";
+	case SortingAlg::RESET: return "Array is reshuffled";
+	case SortingAlg::STOP: return "Sorting stopped";
+	default:      return "[algorithm is not selected]";
+	}
+}
 
 int main()
 {
@@ -33,7 +53,7 @@ int main()
 
 	//GLut func initialization
 	glutDisplayFunc(render);
-	glutTimerFunc(10, gameloop, 0);
+	glutTimerFunc(sorting_speed, gameloop, 0);
 	glutSpecialFunc(specialKeyHandler);
 	glutKeyboardFunc(normalKeyHandler);
 
@@ -46,7 +66,7 @@ void gameloop(int=0)
 {
 	render();
 	update();
-	glutTimerFunc(10, gameloop, 0);
+	glutTimerFunc(sorting_speed, gameloop, 0);
 }
 
 void render()
@@ -55,7 +75,9 @@ void render()
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	arr.drawArray();
-	txt.drawOperationCount(arr.getOperationCounter(),20,680, arr.getArraySize());
+	txt.drawOperationCount(arr.getOperationCounter(), 20, 40, arr.getArraySize());
+	txt.drawSortName(enumToString(mode), 400, 50);
+	txt.drawKeyGuide(0, 75);
 	glFlush();
 }
 
@@ -64,6 +86,15 @@ void update()
 	if (sorting && (mode==SortingAlg::BUBBLE))
 	{
 		sorting=arr.bubbleSortTick();
+	}
+	else if (sorting && (mode == SortingAlg::RESET))
+	{
+		sorting = false;
+		arr.reshuffleArray();
+	}
+	else if (sorting && (mode == SortingAlg::STOP))
+	{
+		sorting = false;
 	}
 }
 
@@ -89,8 +120,12 @@ void normalKeyHandler(unsigned char key, int x, int y)
 		mode = SortingAlg::MERGE;
 		break;
 	case 'r':
-		sorting = false;
+		sorting = true;
 		mode = SortingAlg::RESET;
+		break;
+	case 's':
+		sorting = true;
+		mode = SortingAlg::STOP;
 		break;
 	}
 }

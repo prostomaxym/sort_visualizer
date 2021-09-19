@@ -12,6 +12,7 @@ class Window
 public:
 	Window();
 	Window(int w, int h, std::string winname);
+
 private:
 	friend class Text;
 	int width, hight; //window resolution
