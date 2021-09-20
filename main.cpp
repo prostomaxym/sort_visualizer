@@ -13,6 +13,7 @@ void render();
 void update();
 void specialKeyHandler(int key, int a, int b);
 void normalKeyHandler(unsigned char key, int x, int y);
+void normalKeyReleaseHandler(unsigned char key, int x, int y);
 
 /*initialization params - (Width resolusion, Hight resolusion, window name)*/
 Window win(1280, 720, "Sorting algorithms visualizer");
@@ -22,8 +23,9 @@ Window win(1280, 720, "Sorting algorithms visualizer");
 Sort arr(200, 500, 50, 100, 1, 1);
 Text txt;
 
-bool sorting = false;
-int sorting_speed = 1;
+bool fullscreen = false;  //default screen mode
+bool sorting = false;  //default program state
+int sorting_speed = 1;  //milliseconds beetween gameloop ticks
 
 //Toggle sorting algorithm
 enum class SortingAlg
@@ -55,6 +57,7 @@ int main()
 	glutDisplayFunc(render);
 	glutTimerFunc(sorting_speed, gameloop, 0);
 	glutSpecialFunc(specialKeyHandler);
+	glutKeyboardUpFunc(normalKeyReleaseHandler);
 	glutKeyboardFunc(normalKeyHandler);
 
 	//Game loop
@@ -100,11 +103,11 @@ void update()
 
 void specialKeyHandler(int key, int a, int b)
 {
-	switch (key)
+	/*switch (key)
 	{
 	default:
 		break;
-	}
+	}*/
 }
 
 void normalKeyHandler(unsigned char key, int x, int y)
@@ -127,5 +130,22 @@ void normalKeyHandler(unsigned char key, int x, int y)
 		sorting = true;
 		mode = SortingAlg::STOP;
 		break;
+	}
+}
+
+void normalKeyReleaseHandler(unsigned char key, int x, int y)
+{
+	if (key == 'f')
+	{
+		if (fullscreen)
+		{
+			glutReshapeWindow(1280, 720);
+			fullscreen = false;
+		}
+		else
+		{
+			glutFullScreen();
+			fullscreen = true;
+		}
 	}
 }
