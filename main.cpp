@@ -7,6 +7,7 @@
 #include "Sort.h"
 #include "Text.h"
 #include "Window.h"
+#include "Sliderbar.h"
 
 void gameloop(int);
 void render();
@@ -14,14 +15,18 @@ void update();
 void specialKeyHandler(int key, int a, int b);
 void normalKeyHandler(unsigned char key, int x, int y);
 void normalKeyReleaseHandler(unsigned char key, int x, int y);
+void mouseClickHandler(int button, int state, int x, int y);
 
-/*initialization params - (Width resolusion, Hight resolusion, window name)*/
-Window win(1280, 720, "Sorting algorithms visualizer");
+//Default settings
+/*initialization params - win(Width resolusion, Hight resolusion, window name)*/
+const int w = 1280, h = 720;  //default screen resolution
+Window win(w, h, "Sorting algorithms visualizer");
 
-/*initialization params - (unsigned array_size, unsigned max_value, 
+/*initialization params - arr(unsigned array_size, unsigned max_value, 
 	int xcoord, int ycoord, float x_scale, float y_scale)*/
-Sort arr(200, 500, 50, 100, 1, 1);
-Text txt;
+Sort arr(200, 500, 50, 100, 1, 1); //array to be sorted settings
+Text txt; //on screen text UI class
+Sliderbar size_slider(50, 30, 0, 500); //array size UI slider
 
 bool fullscreen = false;  //default screen mode
 bool sorting = false;  //default program state
@@ -59,6 +64,7 @@ int main()
 	glutSpecialFunc(specialKeyHandler);
 	glutKeyboardUpFunc(normalKeyReleaseHandler);
 	glutKeyboardFunc(normalKeyHandler);
+	glutMouseFunc(mouseClickHandler);
 
 	//Game loop
 	glutMainLoop();
@@ -78,9 +84,12 @@ void render()
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	arr.drawArray();
+
 	txt.drawOperationCount(arr.getOperationCounter(), 20, 40, arr.getArraySize());
 	txt.drawSortName(enumToString(mode), 400, 50);
 	txt.drawKeyGuide(0, 75);
+
+	size_slider.drawSlider();
 	glFlush();
 }
 
@@ -146,6 +155,17 @@ void normalKeyReleaseHandler(unsigned char key, int x, int y)
 		{
 			glutFullScreen();
 			fullscreen = true;
+		}
+	}
+}
+
+void mouseClickHandler(int button, int state, int x, int y)
+{
+	if (button == GLUT_LEFT_BUTTON)
+	{
+		if (size_slider.isClicked(x,y) != -1)
+		{
+			size_slider.setValue(size_slider.isClicked(x, y));
 		}
 	}
 }
