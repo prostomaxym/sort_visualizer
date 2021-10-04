@@ -4,16 +4,11 @@
 
 #include <glut.h>
 
+#include "Keyboard.h"
+#include "main.h"
 #include "Sort.h"
 #include "Text.h"
 #include "Window.h"
-
-void gameloop(int);
-void render();
-void update();
-void specialKeyHandler(int key, int a, int b);
-void normalKeyHandler(unsigned char key, int x, int y);
-void normalKeyReleaseHandler(unsigned char key, int x, int y);
 
 //Default settings
 /*initialization params - win(Width resolusion, Hight resolusion, window name)*/
@@ -29,15 +24,7 @@ bool fullscreen = false;  //default screen mode
 bool sorting = false;  //default program state
 int sorting_speed = 1;  //milliseconds beetween gameloop ticks
 
-//Toggle sorting algorithm
-enum class SortingAlg
-{
-	BUBBLE,
-	MERGE,
-	RESET,
-	STOP
-};
-SortingAlg mode = SortingAlg::RESET;
+SortingAlg mode = SortingAlg::RESET;  //default sorting mode
 
 inline std::string enumToString(SortingAlg alg)
 {
@@ -101,49 +88,5 @@ void update()
 	else if (sorting && (mode == SortingAlg::STOP))
 	{
 		sorting = false;
-	}
-}
-
-void specialKeyHandler(int key, int a, int b)
-{
-}
-
-void normalKeyHandler(unsigned char key, int x, int y)
-{
-	switch (key)
-	{
-	case 49:
-		sorting = true;
-		mode = SortingAlg::BUBBLE;
-		break;
-	case 50:
-		sorting = true;
-		mode = SortingAlg::MERGE;
-		break;
-	case 'r':
-		sorting = true;
-		mode = SortingAlg::RESET;
-		break;
-	case 's':
-		sorting = true;
-		mode = SortingAlg::STOP;
-		break;
-	}
-}
-
-void normalKeyReleaseHandler(unsigned char key, int x, int y)
-{
-	if (key == 'f')
-	{
-		if (fullscreen)
-		{
-			glutReshapeWindow(1280, 720);
-			fullscreen = false;
-		}
-		else
-		{
-			glutFullScreen();
-			fullscreen = true;
-		}
 	}
 }
