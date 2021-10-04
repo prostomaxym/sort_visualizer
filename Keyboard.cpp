@@ -16,6 +16,14 @@ void normalKeyHandler(unsigned char key, int x, int y)
 		sorting = true;
 		mode = SortingAlg::MERGE;
 		break;
+	case 51:
+		sorting = true;
+		mode = SortingAlg::HEAP;
+		break;
+	case 52:
+		sorting = true;
+		mode = SortingAlg::QUICK;
+		break;
 	case 'r':
 		sorting = true;
 		mode = SortingAlg::RESET;

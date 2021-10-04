@@ -12,6 +12,8 @@ enum class SortingAlg
 {
 	BUBBLE,
 	MERGE,
+	HEAP,
+	QUICK,
 	RESET,
 	STOP
 };

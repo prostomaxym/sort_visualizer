@@ -17,6 +17,7 @@ public:
 	void reshuffleArray();
 	bool bubbleSortTick();
 	bool mergeSortTick();
+	bool heapSortTick();
 	void drawArray();
 	int getOperationCounter();
 	int getArraySize();

@@ -33,6 +33,8 @@ inline std::string enumToString(SortingAlg alg)
 	{
 	case SortingAlg::BUBBLE: return "Bubble sort";
 	case SortingAlg::MERGE: return "Merge sort";
+	case SortingAlg::HEAP: return "Heap sort";
+	case SortingAlg::QUICK: return "Quick sort";
 	case SortingAlg::RESET: return "Array is reshuffled";
 	case SortingAlg::STOP: return "Sorting stopped";
 	default:      return "[algorithm is not selected]";
@@ -85,6 +87,10 @@ void update()
 	else if (sorting && (mode == SortingAlg::MERGE))
 	{
 		sorting = arr.mergeSortTick();
+	}
+	else if (sorting && (mode == SortingAlg::HEAP))
+	{
+		sorting = arr.heapSortTick();
 	}
 	else if (sorting && (mode == SortingAlg::RESET))
 	{
