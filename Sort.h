@@ -43,5 +43,8 @@ private:
 	size_t MidBorder;
 	size_t RightBorder;
 	std::vector <int>SortedBlock;
+
+	int start;
+	int root;
 };
 #endif  // SORT_VISUALIZER_SORT_H_

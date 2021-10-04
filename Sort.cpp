@@ -24,6 +24,8 @@ Sort::Sort()
 	this->RightBlockIterator = 0;
 	this->SortedBlock = std::vector<int>(RightBorder - LeftBorder);
 	this->MergeIterator = 0;
+
+	this->start = (arr_size - 2) / 2;
 }
 
 Sort::Sort(unsigned size, unsigned maxvalue, int xcoord, int ycoord, float xscale, float yscale)
@@ -50,6 +52,8 @@ Sort::Sort(unsigned size, unsigned maxvalue, int xcoord, int ycoord, float xscal
 	this->RightBlockIterator = 0;
 	this->SortedBlock = std::vector<int>(RightBorder - LeftBorder);
 	this->MergeIterator = 0;
+
+	this->start = (arr_size - 2) / 2;
 }
 
 void Sort::reshuffleArray()
@@ -181,25 +185,55 @@ bool Sort::mergeSortTick()
 
 bool Sort::heapSortTick()
 {
-	if (!(std::is_sorted(arr.begin(),arr.end())) && n > 0)
+		while (start >= 0)
+		{
+			int root = start;
+			while (2 * root + 1 <= arr_size - 1)
+			{
+				int child = 2 * root + 1;
+				int swap = root;
+
+				if (arr[swap] < arr[child]) swap = child;
+				if ((child + 1 <= arr_size - 1) && (arr[swap] < arr[child + 1])) swap = child + 1;
+				if (swap == root) break;
+				else
+				{
+					std::swap(arr[root], arr[swap]);
+					root = swap;
+					operation_counter++;
+					i = root;
+				}
+			}
+			start = start - 1;
+		}
+		
+	while (n > 0)
 	{
 		std::swap(arr[n], arr[0]);
-			while (i < n)
+		operation_counter++;
+		n = n - 1;
+
+		int root = 0;
+		while (2 * root + 1 <= n)
+		{
+			int child = 2 * root + 1;
+			int swap = root;
+
+			if (arr[swap] < arr[child]) swap = child;
+			if ((child + 1 <= n) && (arr[swap] < arr[child + 1])) swap = child + 1;
+			if (swap == root) break;
+			else
 			{
-				while (arr[i] > arr[floor((i - 1) / 2)])
-				{
-					std::swap(arr[i], arr[(i - 1) / 2]);
-					operation_counter++;
-					i = (i - 1) / 2;
-					return true;
-				}
-				i++;
+				std::swap(arr[root], arr[swap]);
+				operation_counter++;
+				root = swap;
 			}
-			i = 1;
-			n = n - 1;
+		}
+		i = 1;
 		return true;
 	}
-	else return false;
+	if (std::is_sorted(arr.begin(), arr.end())) return false;
+	else return true;
 }
 void Sort::drawArray()
 {
