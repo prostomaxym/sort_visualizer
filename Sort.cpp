@@ -6,7 +6,7 @@ Sort::Sort()
 	{
 		this->arr.push_back(rand() % 100);
 	}
-	this->n = arr.size();
+	this->n = arr.size()-1;
 	this->arr_size = arr.size();
 	this->max_value = 100;
 	this->x = 50;
@@ -32,7 +32,7 @@ Sort::Sort(unsigned size, unsigned maxvalue, int xcoord, int ycoord, float xscal
 	{
 		this->arr.push_back(rand() % maxvalue);
 	}
-	this->n = arr.size();
+	this->n = arr.size()-1;
 	this->arr_size = arr.size();
 	this->max_value = maxvalue;
 	this->x = xcoord;
@@ -179,32 +179,24 @@ bool Sort::mergeSortTick()
 	return true;
 }
 
-
-/*procedure heapsort(a, count) is
-input : an unordered array a of length count
-
-(Build the heap in array a so that largest value is at the root)
-heapify(a, count)
-
-(The following loop maintains the invariants that a[0:end] is a heapand every element
-	beyond end is greater than everything before it(so a[end:count] is in sorted order))
-	end ← count - 1
-	while end > 0 do
-		(a[0] is the root and largest value.The swap moves it in front of the sorted elements.)
-		swap(a[end], a[0])
-		(rebuild the heap using siftUp after the swap ruins the heap property)
-		heapify(a, end)
-		(reduce the heap size by one)
-		end ← end - 1*/
 bool Sort::heapSortTick()
 {
-	n = n - 1;
 	if (!(std::is_sorted(arr.begin(),arr.end())) && n > 0)
 	{
 		std::swap(arr[n], arr[0]);
-		std::make_heap(arr.begin(), arr.begin() + n);
-		operation_counter++;
-		i=n;
+			while (i < n)
+			{
+				while (arr[i] > arr[floor((i - 1) / 2)])
+				{
+					std::swap(arr[i], arr[(i - 1) / 2]);
+					operation_counter++;
+					i = (i - 1) / 2;
+					return true;
+				}
+				i++;
+			}
+			i = 1;
+			n = n - 1;
 		return true;
 	}
 	else return false;

@@ -30,7 +30,7 @@ private:
 	float x_scale, y_scale;	//size scale
 
 	int n;  // decremental size of array
-	unsigned i;  // current iteration
+	int i;  // current iteration
 	int operation_counter;  //number of swap operation done
 
 	//Merge sort fields
