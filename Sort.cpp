@@ -16,6 +16,14 @@ Sort::Sort()
 
 	this->i = 1;
 	this->operation_counter = 0;
+
+	//MergeSort setup
+	this->BlockSizeIterator = 1;
+	this->BlockIterator = 0;
+	this->LeftBlockIterator = 0;
+	this->RightBlockIterator = 0;
+	this->SortedBlock = std::vector<int>(RightBorder - LeftBorder);
+	this->MergeIterator = 0;
 }
 
 Sort::Sort(unsigned size, unsigned maxvalue, int xcoord, int ycoord, float xscale, float yscale)
@@ -34,6 +42,14 @@ Sort::Sort(unsigned size, unsigned maxvalue, int xcoord, int ycoord, float xscal
 
 	this->i = 1;
 	this->operation_counter = 0;
+
+	//MergeSort setup
+	this->BlockSizeIterator = 1;
+	this->BlockIterator = 0;
+	this->LeftBlockIterator = 0;
+	this->RightBlockIterator = 0;
+	this->SortedBlock = std::vector<int>(RightBorder - LeftBorder);
+	this->MergeIterator = 0;
 }
 
 void Sort::reshuffleArray()
@@ -44,13 +60,27 @@ void Sort::reshuffleArray()
 	this->operation_counter = 0;
 	this->i = 1;
 
+	//MergeSort setup
+	this->BlockSizeIterator = 1;
+	this->BlockIterator = 0;
+	this->LeftBlockIterator = 0;
+	this->RightBlockIterator = 0;
+	this->SortedBlock = std::vector<int>(RightBorder - LeftBorder);
+	this->MergeIterator = 0;
+
 	for (unsigned i = 0; i < this->arr_size; i++)
 	{
 		this->arr.push_back(rand() % this->max_value);
 	}
 }
+
 bool Sort::bubbleSortTick()
 {
+	if (std::is_sorted(arr.begin(), arr.end()))
+	{
+		return false;
+	}
+
 	bool swapped = false;
 	while ((this->i) < (this->n))
 	{
@@ -64,14 +94,11 @@ bool Sort::bubbleSortTick()
 		this->i++;
   }
 
-	if (std::is_sorted(arr.begin(), arr.end()))
-	{
-		return false;
-	}
-	else if (swapped == false)
+	if (swapped == false)
 	{
 		this->i = 1;
 		this->n--;
+		return true;
 	}
 	else
 	{
@@ -81,63 +108,75 @@ bool Sort::bubbleSortTick()
 
 bool Sort::mergeSortTick()
 {
-	size_t BlockSizeIterator;
-	size_t BlockIterator;
-	size_t LeftBlockIterator;
-	size_t RightBlockIterator;
-	size_t MergeIterator;
-
-	size_t LeftBorder;
-	size_t MidBorder;
-	size_t RightBorder;
-	for (BlockSizeIterator = 1; BlockSizeIterator < this->arr_size; BlockSizeIterator *= 2)
+	if (std::is_sorted(arr.begin(), arr.end()))
 	{
-		for (BlockIterator = 0; BlockIterator < arr_size - BlockSizeIterator; BlockIterator += 2 * BlockSizeIterator)
+		this->i = 0;
+		return false;
+	}
+	while (BlockSizeIterator < arr_size)
+	{
+		while (BlockIterator < arr_size - BlockSizeIterator)
 		{
-			//ѕроизводим сли€ние с сортировкой пары блоков начинающуюс€ с элемента BlockIterator
-			//левый размером BlockSizeIterator, правый размером BlockSizeIterator или меньше
-			LeftBlockIterator = 0;
-			RightBlockIterator = 0;
 			LeftBorder = BlockIterator;
 			MidBorder = BlockIterator + BlockSizeIterator;
 			RightBorder = BlockIterator + 2 * BlockSizeIterator;
 			RightBorder = (RightBorder < arr_size) ? RightBorder : arr_size;
-			int* SortedBlock = new int[RightBorder - LeftBorder];
+			SortedBlock.resize(RightBorder - LeftBorder);
 
-			//ѕока в обоих массивах есть элементы выбираем меньший из них и заносим в отсортированный блок
 			while (LeftBorder + LeftBlockIterator < MidBorder && MidBorder + RightBlockIterator < RightBorder)
 			{
 				if (arr[LeftBorder + LeftBlockIterator] < arr[MidBorder + RightBlockIterator])
 				{
 					SortedBlock[LeftBlockIterator + RightBlockIterator] = arr[LeftBorder + LeftBlockIterator];
 					LeftBlockIterator += 1;
+
+					i = LeftBorder + LeftBlockIterator;
+					operation_counter++;
+					return true;
 				}
 				else
 				{
 					SortedBlock[LeftBlockIterator + RightBlockIterator] = arr[MidBorder + RightBlockIterator];
+					i = MidBorder + RightBlockIterator;
+					operation_counter++;
 					RightBlockIterator += 1;
+					return true;
 				}
 			}
-			//ѕосле этого заносим оставшиес€ элементы из левого или правого блока
 			while (LeftBorder + LeftBlockIterator < MidBorder)
 			{
 				SortedBlock[LeftBlockIterator + RightBlockIterator] = arr[LeftBorder + LeftBlockIterator];
+				i = LeftBorder + LeftBlockIterator;
+				operation_counter++;
 				LeftBlockIterator += 1;
+				return true;
 			}
 			while (MidBorder + RightBlockIterator < RightBorder)
 			{
 				SortedBlock[LeftBlockIterator + RightBlockIterator] = arr[MidBorder + RightBlockIterator];
+				i = MidBorder + RightBlockIterator;
+				operation_counter++;
 				RightBlockIterator += 1;
+				return true;
 			}
-
-			for (MergeIterator = 0; MergeIterator < LeftBlockIterator + RightBlockIterator; MergeIterator++)
+			while(MergeIterator < LeftBlockIterator + RightBlockIterator)
 			{
 				arr[LeftBorder + MergeIterator] = SortedBlock[MergeIterator];
+				i = LeftBorder + MergeIterator;
+				operation_counter++;
+				MergeIterator++;
+				return true;
 			}
-			delete[] SortedBlock;
+			MergeIterator = 0;
+			SortedBlock.clear();
+			BlockIterator += 2 * BlockSizeIterator;
+			LeftBlockIterator = 0;
+			RightBlockIterator = 0;
 		}
+		BlockIterator = 0;
+		BlockSizeIterator *= 2;
 	}
-	return false;
+	return true;
 }
 
 void Sort::drawArray()

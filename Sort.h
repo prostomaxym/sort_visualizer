@@ -24,12 +24,23 @@ public:
 private:
 	std::vector <int> arr;
 	int arr_size; //initial size of array
-	int n;  // decremental size of array
-	int max_value;
+	int max_value; //max value of array elements
 	int x, y;	//drawArray bottom left coordinates
 	float x_scale, y_scale;	//size scale
 
-	unsigned i; // current iteration
+	int n;  // decremental size of array
+	unsigned i;  // current iteration
 	int operation_counter;  //number of swap operation done
+
+	//Merge sort fields
+	size_t BlockSizeIterator;
+	size_t BlockIterator;
+	size_t LeftBlockIterator;
+	size_t RightBlockIterator;
+	size_t MergeIterator;
+	size_t LeftBorder;
+	size_t MidBorder;
+	size_t RightBorder;
+	std::vector <int>SortedBlock;
 };
 #endif  // SORT_VISUALIZER_SORT_H_
