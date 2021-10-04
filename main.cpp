@@ -18,7 +18,7 @@ Window win(w, h, "Sorting algorithms visualizer");
 /*initialization params - arr(unsigned array_size, unsigned max_value, 
 	int xcoord, int ycoord, float x_scale, float y_scale)*/
 Sort arr(200, 500, 50, 100, 1, 1); //array to be sorted settings
-Text txt; //on screen text UI class
+Text ui; //on screen text UI class
 
 bool fullscreen = false;  //default screen mode
 bool sorting = false;  //default program state
@@ -26,12 +26,13 @@ int sorting_speed = 1;  //milliseconds beetween gameloop ticks
 
 SortingAlg mode = SortingAlg::RESET;  //default sorting mode
 
+//convert enum to screen text
 inline std::string enumToString(SortingAlg alg)
 {
 	switch (alg)
 	{
-	case SortingAlg::BUBBLE:   return "Bubble sort";
-	case SortingAlg::MERGE:   return "Merge sort";
+	case SortingAlg::BUBBLE: return "Bubble sort";
+	case SortingAlg::MERGE: return "Merge sort";
 	case SortingAlg::RESET: return "Array is reshuffled";
 	case SortingAlg::STOP: return "Sorting stopped";
 	default:      return "[algorithm is not selected]";
@@ -53,6 +54,7 @@ int main()
 	glutMainLoop();
 	return 0;
 }
+
 void gameloop(int=0)
 {
 	render();
@@ -67,9 +69,9 @@ void render()
 
 	arr.drawArray();
 
-	txt.drawOperationCount(arr.getOperationCounter(), 20, 40, arr.getArraySize());
-	txt.drawSortName(enumToString(mode), 400, 50);
-	txt.drawKeyGuide(0, 75);
+	ui.drawOperationCount(arr.getOperationCounter(), 20, 40, arr.getArraySize());
+	ui.drawSortName(enumToString(mode), 400, 50);
+	ui.drawKeyGuide(0, 75);
 
 	glFlush();
 }
@@ -79,6 +81,10 @@ void update()
 	if (sorting && (mode==SortingAlg::BUBBLE))
 	{
 		sorting=arr.bubbleSortTick();
+	}
+	else if (sorting && (mode == SortingAlg::MERGE))
+	{
+		sorting = arr.mergeSortTick();
 	}
 	else if (sorting && (mode == SortingAlg::RESET))
 	{
