@@ -7,7 +7,6 @@
 #include "Sort.h"
 #include "Text.h"
 #include "Window.h"
-#include "Sliderbar.h"
 
 void gameloop(int);
 void render();
@@ -15,7 +14,6 @@ void update();
 void specialKeyHandler(int key, int a, int b);
 void normalKeyHandler(unsigned char key, int x, int y);
 void normalKeyReleaseHandler(unsigned char key, int x, int y);
-void mouseClickHandler(int button, int state, int x, int y);
 
 //Default settings
 /*initialization params - win(Width resolusion, Hight resolusion, window name)*/
@@ -26,7 +24,6 @@ Window win(w, h, "Sorting algorithms visualizer");
 	int xcoord, int ycoord, float x_scale, float y_scale)*/
 Sort arr(200, 500, 50, 100, 1, 1); //array to be sorted settings
 Text txt; //on screen text UI class
-Sliderbar size_slider(50, 30, 0, 500); //array size UI slider
 
 bool fullscreen = false;  //default screen mode
 bool sorting = false;  //default program state
@@ -64,13 +61,11 @@ int main()
 	glutSpecialFunc(specialKeyHandler);
 	glutKeyboardUpFunc(normalKeyReleaseHandler);
 	glutKeyboardFunc(normalKeyHandler);
-	glutMouseFunc(mouseClickHandler);
 
 	//Game loop
 	glutMainLoop();
 	return 0;
 }
-
 void gameloop(int=0)
 {
 	render();
@@ -89,7 +84,6 @@ void render()
 	txt.drawSortName(enumToString(mode), 400, 50);
 	txt.drawKeyGuide(0, 75);
 
-	size_slider.drawSlider();
 	glFlush();
 }
 
@@ -112,11 +106,6 @@ void update()
 
 void specialKeyHandler(int key, int a, int b)
 {
-	/*switch (key)
-	{
-	default:
-		break;
-	}*/
 }
 
 void normalKeyHandler(unsigned char key, int x, int y)
@@ -155,17 +144,6 @@ void normalKeyReleaseHandler(unsigned char key, int x, int y)
 		{
 			glutFullScreen();
 			fullscreen = true;
-		}
-	}
-}
-
-void mouseClickHandler(int button, int state, int x, int y)
-{
-	if (button == GLUT_LEFT_BUTTON)
-	{
-		if (size_slider.isClicked(x,y) != -1)
-		{
-			size_slider.setValue(size_slider.isClicked(x, y));
 		}
 	}
 }

@@ -15,7 +15,7 @@ public:
 
 private:
 	friend class Text;
-	int width, hight; //window resolution
+	int width, height; //window resolution
 	std::string window_name;
 };
 #endif  // SORT_VISUALIZER_WINDOW_H_

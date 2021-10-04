@@ -152,13 +152,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Sliderbar.cpp" />
     <ClCompile Include="Sort.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Sliderbar.h" />
     <ClInclude Include="Sort.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="Window.h" />
