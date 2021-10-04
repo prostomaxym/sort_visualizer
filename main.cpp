@@ -22,7 +22,8 @@ Text ui; //on screen text UI class
 
 bool fullscreen = false;  //default screen mode
 bool sorting = false;  //default program state
-int sorting_speed = 1;  //milliseconds beetween gameloop ticks
+int sorting_speed = 5;  //milliseconds beetween gameloop ticks
+bool speedX5 = false;
 
 SortingAlg mode = SortingAlg::RESET;  //default sorting mode
 
@@ -73,7 +74,8 @@ void render()
 
 	ui.drawOperationCount(arr.getOperationCounter(), 20, 40, arr.getArraySize());
 	ui.drawSortName(enumToString(mode), 400, 50);
-	ui.drawKeyGuide(0, 75);
+	ui.drawKeyGuide(25, 75);
+	ui.drawRenderSpeed(-50, 40, speedX5);
 
 	glFlush();
 }

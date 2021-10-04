@@ -50,4 +50,17 @@ void normalKeyReleaseHandler(unsigned char key, int x, int y)
 			fullscreen = true;
 		}
 	}
+	if (key == 'a')
+	{
+		if (speedX5)
+		{
+			sorting_speed *= 5;
+			speedX5 = false;
+		}
+		else
+		{
+			sorting_speed /= 5;
+			speedX5 = true;
+		}
+	}
 }

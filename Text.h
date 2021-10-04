@@ -14,6 +14,7 @@ public:
 	void drawOperationCount(int n, float x, float y, int arrsize);
 	void drawSortName(std::string sortname, int xcoord, int ycoord);
 	void drawKeyGuide(int xcoord, int ycoord);
+	void drawRenderSpeed(int xcoord, int ycoord, bool speedup);
 
 private:
 	void glWrite(float x, float y, int* font, std::string text);

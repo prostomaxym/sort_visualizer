@@ -25,7 +25,9 @@ Sort::Sort()
 	this->SortedBlock = std::vector<int>(RightBorder - LeftBorder);
 	this->MergeIterator = 0;
 
+	//HeapSort setup
 	this->start = (arr_size - 2) / 2;
+	this->root = start;
 }
 
 Sort::Sort(unsigned size, unsigned maxvalue, int xcoord, int ycoord, float xscale, float yscale)
@@ -53,14 +55,16 @@ Sort::Sort(unsigned size, unsigned maxvalue, int xcoord, int ycoord, float xscal
 	this->SortedBlock = std::vector<int>(RightBorder - LeftBorder);
 	this->MergeIterator = 0;
 
+	//HeapSort setup
 	this->start = (arr_size - 2) / 2;
+	this->root = start;
 }
 
 void Sort::reshuffleArray()
 {
 	this->arr.clear();
 
-	this->n = this->arr_size;
+	this->n = this->arr_size - 1;
 	this->operation_counter = 0;
 	this->i = 1;
 
@@ -71,6 +75,10 @@ void Sort::reshuffleArray()
 	this->RightBlockIterator = 0;
 	this->SortedBlock = std::vector<int>(RightBorder - LeftBorder);
 	this->MergeIterator = 0;
+
+	//HeapSort setup
+	this->start = (arr_size - 2) / 2;
+	this->root = start;
 
 	for (unsigned i = 0; i < this->arr_size; i++)
 	{
@@ -86,7 +94,7 @@ bool Sort::bubbleSortTick()
 	}
 
 	bool swapped = false;
-	while ((this->i) < (this->n))
+	while ((this->i) < (this->n+1))
 	{
 		if (this->arr[i - 1] > this->arr[i])
 		{
@@ -185,35 +193,47 @@ bool Sort::mergeSortTick()
 
 bool Sort::heapSortTick()
 {
-		while (start >= 0)
+	//make max heap
+	while (start >= 0)
+	{
+		while (2 * root + 1 <= arr_size - 1)
 		{
-			int root = start;
-			while (2 * root + 1 <= arr_size - 1)
-			{
-				int child = 2 * root + 1;
-				int swap = root;
+			int child = 2 * root + 1;
+			int swap = root;
 
-				if (arr[swap] < arr[child]) swap = child;
-				if ((child + 1 <= arr_size - 1) && (arr[swap] < arr[child + 1])) swap = child + 1;
-				if (swap == root) break;
-				else
-				{
-					std::swap(arr[root], arr[swap]);
-					root = swap;
-					operation_counter++;
-					i = root;
-				}
+			if (arr[swap] < arr[child]) swap = child;
+			if ((child + 1 <= arr_size - 1) && (arr[swap] < arr[child + 1])) swap = child + 1;
+			if (swap == root) break;
+			else
+			{
+				std::swap(arr[root], arr[swap]);
+				root = swap;
+				operation_counter++;
+				i = swap;
+				return true;
 			}
-			start = start - 1;
 		}
-		
+		start = start - 1;
+		root = start;
+	}
+
+	//skip make max heap step when heap is already made
+	if (start == -1)
+	{
+		this->root = 0;
+		start = -2;
+	}
+
 	while (n > 0)
 	{
-		std::swap(arr[n], arr[0]);
-		operation_counter++;
-		n = n - 1;
-
-		int root = 0;
+		if (root == 0 || (2 * root + 1) > n)
+		{
+			std::swap(arr[n], arr[0]);
+			operation_counter++;
+			n = n - 1;
+			this->root = 0;
+		}
+		
 		while (2 * root + 1 <= n)
 		{
 			int child = 2 * root + 1;
@@ -221,15 +241,20 @@ bool Sort::heapSortTick()
 
 			if (arr[swap] < arr[child]) swap = child;
 			if ((child + 1 <= n) && (arr[swap] < arr[child + 1])) swap = child + 1;
-			if (swap == root) break;
+			if (swap == root)
+			{
+				root = 0;
+				break;
+			}
 			else
 			{
 				std::swap(arr[root], arr[swap]);
 				operation_counter++;
 				root = swap;
+				i = swap;
+				return true;
 			}
 		}
-		i = 1;
 		return true;
 	}
 	if (std::is_sorted(arr.begin(), arr.end())) return false;
