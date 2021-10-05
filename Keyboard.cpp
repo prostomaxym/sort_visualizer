@@ -1,9 +1,5 @@
 #include "Keyboard.h"
 
-void specialKeyHandler(int key, int a, int b)
-{
-}
-
 void normalKeyHandler(unsigned char key, int x, int y)
 {
 	switch (key)

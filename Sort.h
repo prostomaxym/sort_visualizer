@@ -30,8 +30,8 @@ private:
 	int x, y;	//drawArray bottom left coordinates
 	float x_scale, y_scale;	//size scale
 
-	int n;  // decremental size of array
-	int i;  // current iteration
+	int n;  //size of subarray
+	int i;  //current iteration
 	int operation_counter;  //number of swap operation done
 
 	//Merge sort fields

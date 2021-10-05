@@ -2,9 +2,10 @@
 #define SORT_VISUALIZER_TEXT_H_
 
 #include <string>
-#include "Window.h"
 
 #include <glut.h>
+
+#include "Window.h"
 
 extern Window win;
 

@@ -6,6 +6,8 @@ Sort::Sort()
 	{
 		this->arr.push_back(rand() % 100);
 	}
+
+	//array setup
 	this->n = arr.size()-1;
 	this->arr_size = arr.size();
 	this->max_value = 100;
@@ -13,7 +15,6 @@ Sort::Sort()
 	this->y = 100;
 	this->x_scale = 1;
 	this->y_scale = 1;
-
 	this->i = 1;
 	this->operation_counter = 0;
 
@@ -34,10 +35,6 @@ Sort::Sort()
 	this->h = arr_size - 1;
 	this->stack=std::vector <int>(h - l + 1);
 	this->top = -1;
-	this->stack[++top] = l;
-	this->stack[++top] = h;
-	this->h = stack[top--];
-	this->l = stack[top--];
 	this->t = arr[h];
 	this->p = (l - 1);
 	this->j = l;
@@ -50,6 +47,8 @@ Sort::Sort(unsigned size, unsigned maxvalue, int xcoord, int ycoord, float xscal
 	{
 		this->arr.push_back(rand() % maxvalue);
 	}
+
+	//array setup
 	this->n = arr.size()-1;
 	this->arr_size = arr.size();
 	this->max_value = maxvalue;
@@ -57,7 +56,6 @@ Sort::Sort(unsigned size, unsigned maxvalue, int xcoord, int ycoord, float xscal
 	this->y = ycoord;
 	this->x_scale = xscale;
 	this->y_scale = yscale;
-
 	this->i = 1;
 	this->operation_counter = 0;
 
@@ -78,10 +76,6 @@ Sort::Sort(unsigned size, unsigned maxvalue, int xcoord, int ycoord, float xscal
 	this->h = arr_size - 1;
 	this->stack = std::vector <int>(h - l + 1);
 	this->top = -1;
-	this->stack[++top] = l;
-	this->stack[++top] = h;
-	this->h = stack[top--];
-	this->l = stack[top--];
 	this->t = arr[h];
 	this->p = (l - 1);
 	this->j = l;
@@ -95,6 +89,7 @@ void Sort::reshuffleArray()
 		this->arr.push_back(rand() % this->max_value);
 	}
 
+	//array setup
 	this->n = arr_size - 1;
 	this->operation_counter = 0;
 	this->i = 1;
@@ -118,10 +113,6 @@ void Sort::reshuffleArray()
 	this->h = arr_size - 1;
 	this->stack = std::vector <int>(h - l + 1);
 	this->top = -1;
-	this->stack[++top] = l;
-	this->stack[++top] = h;
-	this->h = stack[top--];
-	this->l = stack[top--];
 	this->t = arr[h];
 	this->p = (l - 1);
 	this->j = l;
@@ -129,43 +120,33 @@ void Sort::reshuffleArray()
 
 bool Sort::bubbleSortTick()
 {
-	if (std::is_sorted(arr.begin(), arr.end()))
-	{
-		return false;
-	}
+	if (std::is_sorted(arr.begin(), arr.end())) return false;
 
 	bool swapped = false;
-	while ((this->i) < (this->n+1))
+	while (i < n + 1)
 	{
-		if (this->arr[i - 1] > this->arr[i])
+		if (arr[i - 1] > arr[i])
 		{
-			std::swap(this->arr[i - 1], this->arr[i]);
+			std::swap(arr[i - 1], arr[i]);
 			swapped = true;
-			this->operation_counter++;
+			operation_counter++;
 			break;
 		}
-		this->i++;
-  }
-
+		i++;
+	}
 	if (swapped == false)
 	{
-		this->i = 1;
-		this->n--;
+		i = 1;
+		n--;
 		return true;
 	}
-	else
-	{
-		return true;
-	}
+	return true;
 }
 
 bool Sort::mergeSortTick()
 {
-	if (std::is_sorted(arr.begin(), arr.end()))
-	{
-		this->i = 0;
-		return false;
-	}
+	if (std::is_sorted(arr.begin(), arr.end())) return false;
+		
 	while (BlockSizeIterator < arr_size)
 	{
 		while (BlockIterator < arr_size - BlockSizeIterator)
@@ -212,7 +193,7 @@ bool Sort::mergeSortTick()
 				RightBlockIterator += 1;
 				return true;
 			}
-			while(MergeIterator < LeftBlockIterator + RightBlockIterator)
+			while (MergeIterator < LeftBlockIterator + RightBlockIterator)
 			{
 				arr[LeftBorder + MergeIterator] = SortedBlock[MergeIterator];
 				i = LeftBorder + MergeIterator;
@@ -234,6 +215,8 @@ bool Sort::mergeSortTick()
 
 bool Sort::heapSortTick()
 {
+	if (std::is_sorted(arr.begin(), arr.end())) return false;
+
 	//make max heap
 	while (start >= 0)
 	{
@@ -298,55 +281,52 @@ bool Sort::heapSortTick()
 		}
 		return true;
 	}
-	if (std::is_sorted(arr.begin(), arr.end())) return false;
-	else return true;
+	return true;
 }
 
 bool Sort::quickSortTick()
 {
-	if (std::is_sorted(arr.begin(),arr.end()))
-	{
-		return false;
-	}
-	else
-	{
-		if (j <= h - 1)
-		{
-			if (arr[j] <= t)
-			{
-				p++;
-				std::swap(arr[p], arr[j]);
-				operation_counter++;
-			}
-			j++;
-			i = j;
-			return true;
-		}
-		if (j > h - 1)
-		{
-			std::swap(arr[p + 1], arr[h]);
-			i = p + 1;
-			operation_counter++;
-			p = p + 1;
+	if (std::is_sorted(arr.begin(),arr.end()))	return false;
 
-			if (p - 1 > l)
-			{
-				stack[++top] = l;
-				stack[++top] = p - 1;
-			}
-			if (p + 1 < h)
-			{
-				stack[++top] = p + 1;
-				stack[++top] = h;
-			}
-			h = stack[top--];
-			l = stack[top--];
-			t = arr[h];
-			p = (l - 1);
-			j = l;
-			return true;
+	if (j <= h - 1)
+	{
+		if (arr[j] <= t)
+		{
+			p++;
+			std::swap(arr[p], arr[j]);
+			operation_counter++;
 		}
+		j++;
+		i = j;
+		return true;
 	}
+	if (j > h - 1)
+	{
+		std::swap(arr[p + 1], arr[h]);
+		i = p + 1;
+		operation_counter++;
+		p = p + 1;
+
+		if (p - 1 > l)
+		{
+			stack[++top] = l;
+			stack[++top] = p - 1;
+		}
+		if (p + 1 < h)
+		{
+			stack[++top] = p + 1;
+			stack[++top] = h;
+		}
+		if (top < 1) return true;
+
+		h = stack[top--];
+		l = stack[top--];
+		t = arr[h];
+		p = (l - 1);
+		j = l;
+		return true;
+	}
+	return true;
 }
 
 void Sort::drawArray()

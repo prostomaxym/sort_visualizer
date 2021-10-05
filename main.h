@@ -7,7 +7,7 @@ void gameloop(int);
 void render();
 void update();
 
-//program mode state
+//selected algorithm state
 enum class SortingAlg
 {
 	BUBBLE,
@@ -25,6 +25,6 @@ inline std::string enumToString(SortingAlg alg);  //convert enum state to screen
 extern bool fullscreen;  //window fullscreen mode state
 extern bool sorting;  //sorting state (sorting, stopped)
 extern int sorting_speed;  //time between sorting ticks in ms
-extern bool speedX5;
+extern bool speedX5;  //increase render speed x5
 extern const int w, h;  //default window width, height
 #endif  // SORT_VISUALIZER_MAIN_H_

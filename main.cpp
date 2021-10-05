@@ -10,21 +10,18 @@
 #include "Text.h"
 #include "Window.h"
 
-//Default settings
-/*initialization params - win(Width resolusion, Hight resolusion, window name)*/
 const int w = 1280, h = 720;  //default screen resolution
-Window win(w, h, "Sorting algorithms visualizer");
-
-/*initialization params - arr(unsigned array_size, unsigned max_value, 
-	int xcoord, int ycoord, float x_scale, float y_scale)*/
-Sort arr(200, 500, 50, 100, 1, 1); //array to be sorted settings
-Text ui; //on screen text UI class
-
 bool fullscreen = false;  //default screen mode
 bool sorting = false;  //default program state
 int sorting_speed = 5;  //milliseconds beetween gameloop ticks
-bool speedX5 = false;
+bool speedX5 = false;  //increase render speed x5
 
+//win(Width resolusion, Hight resolusion, window name)
+Window win(w, h, "Sorting algorithms visualizer");
+
+//arr(array_size, max_value, xcoord, ycoord, float x_scale, float y_scale)
+Sort arr(200, 500, 50, 50, 1, 1); //array to be sorted settings
+Text ui; //on screen text UI 
 SortingAlg mode = SortingAlg::RESET;  //default sorting mode
 
 //convert enum to screen text
@@ -43,18 +40,15 @@ inline std::string enumToString(SortingAlg alg)
 }
 
 //TODO 
-//divide into subclasses
-//real time clock
-//code review
+//fix quicksort out of range bug
 
 int main()
 {
-	srand(time(NULL)); // set random seed
+	srand(time(NULL));
 
 	//GLut func initialization
 	glutDisplayFunc(render);
 	glutTimerFunc(sorting_speed, gameloop, 0);
-	glutSpecialFunc(specialKeyHandler);
 	glutKeyboardUpFunc(normalKeyReleaseHandler);
 	glutKeyboardFunc(normalKeyHandler);
 
@@ -79,8 +73,8 @@ void render()
 
 	ui.drawOperationCount(arr.getOperationCounter(), 20, 40, arr.getArraySize());
 	ui.drawSortName(enumToString(mode), 400, 50);
-	ui.drawKeyGuide(25, 75);
-	ui.drawRenderSpeed(-50, 40, speedX5);
+	ui.drawKeyGuide(25, 90);
+	ui.drawRenderSpeed(-25, 40, speedX5);
 
 	glFlush();
 }
