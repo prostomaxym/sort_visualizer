@@ -260,6 +260,51 @@ bool Sort::heapSortTick()
 	if (std::is_sorted(arr.begin(), arr.end())) return false;
 	else return true;
 }
+
+bool Sort::quickSortTick()
+{
+	size_t l = 0;
+	size_t h = arr_size-1;
+	std::vector <int> stack(h - l + 1);
+	int top = -1;
+
+	stack[++top] = l;
+	stack[++top] = h;
+
+	while (top >= 0) 
+	{
+		// Pop h and l
+		h = stack[top--];
+		l = stack[top--];
+
+		int x = arr[h];
+		int p = (l - 1);
+
+		for (int j = l; j <= h - 1; j++) 
+		{
+			if (arr[j] <= x) 
+			{
+				p++;
+				std::swap(arr[p], arr[j]);
+			}
+		}
+		std::swap(arr[p + 1], arr[h]);
+		p = p + 1;
+
+		if (p - 1 > l) 
+		{
+			stack[++top] = l;
+			stack[++top] = p - 1;
+		}
+		if (p + 1 < h) 
+		{
+			stack[++top] = p + 1;
+			stack[++top] = h;
+		}
+	}
+	return false;
+}
+
 void Sort::drawArray()
 {
 	//Draw all array with green color

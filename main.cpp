@@ -94,6 +94,10 @@ void update()
 	{
 		sorting = arr.heapSortTick();
 	}
+	else if (sorting && (mode == SortingAlg::QUICK))
+	{
+		sorting = arr.quickSortTick();
+	}
 	else if (sorting && (mode == SortingAlg::RESET))
 	{
 		sorting = false;
