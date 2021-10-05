@@ -45,7 +45,17 @@ private:
 	size_t RightBorder;
 	std::vector <int>SortedBlock;
 
+	//Heap sort fields
 	int start;
 	int root;
+
+	//Quick sort fields
+	size_t l;
+	size_t h;
+	std::vector <int> stack;
+	int top;
+	int j;
+	int t;
+	int p;
 };
 #endif  // SORT_VISUALIZER_SORT_H_

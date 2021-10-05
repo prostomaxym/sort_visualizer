@@ -42,6 +42,11 @@ inline std::string enumToString(SortingAlg alg)
 	}
 }
 
+//TODO 
+//divide into subclasses
+//real time clock
+//code review
+
 int main()
 {
 	srand(time(NULL)); // set random seed
