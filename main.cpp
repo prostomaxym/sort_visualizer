@@ -39,9 +39,6 @@ inline std::string enumToString(SortingAlg alg)
 	}
 }
 
-//TODO 
-//fix quicksort out of range bug
-
 int main()
 {
 	srand(time(NULL));

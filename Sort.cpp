@@ -84,7 +84,7 @@ Sort::Sort(unsigned size, unsigned maxvalue, int xcoord, int ycoord, float xscal
 void Sort::reshuffleArray()
 {
 	this->arr.clear();
-	for (unsigned i = 0; i < this->arr_size; i++)
+	for (int i = 0; i < this->arr_size; i++)
 	{
 		this->arr.push_back(rand() % this->max_value);
 	}
