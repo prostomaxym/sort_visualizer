@@ -8,6 +8,12 @@
 
 #include <glut.h>
 
+#include "main.h"
+#include "BubbleSort.h"
+#include "MergeSort.h"
+#include "HeapSort.h"
+#include "QuickSort.h"
+
 class Sort
 {
 public:
@@ -15,10 +21,7 @@ public:
 	Sort(unsigned size, unsigned max_value, int xcoord, int ycoord, float xscale, float yscale);
 
 	void reshuffleArray();
-	bool bubbleSortTick();
-	bool mergeSortTick();
-	bool heapSortTick();
-	bool quickSortTick();
+	bool tick(SortingAlg alg);
 
 	void drawArray();
 	int getOperationCounter();
@@ -27,35 +30,16 @@ public:
 private:
 	std::vector <int> arr;
 	int arr_size; //initial size of array
-	int max_value; //max value of array elements
+	int max_value; //max value of array element
 	int x, y;	//drawArray bottom left coordinates
 	float x_scale, y_scale;	//size scale
 	int n;  //size of subarray
 	int i;  //current iteration
 	int operation_counter;  //number of swap operation done
 
-	//Merge sort fields
-	int BlockSizeIterator;
-	int BlockIterator;
-	int LeftBlockIterator;
-	int RightBlockIterator;
-	int MergeIterator;
-	int LeftBorder;
-	int MidBorder;
-	int RightBorder;
-	std::vector <int>SortedBlock;
-
-	//Heap sort fields
-	int start;
-	int root;
-
-	//Quick sort fields
-	int l;
-	int h;
-	std::vector <int> stack;
-	int top;
-	int j;
-	int t;
-	int p;
+	BubbleSort bubble;
+	MergeSort merge;
+	HeapSort heap;
+	QuickSort quick;
 };
 #endif  // SORT_VISUALIZER_SORT_H_

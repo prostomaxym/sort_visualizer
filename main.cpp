@@ -78,23 +78,7 @@ void render()
 
 void update()
 {
-	if (sorting && (mode==SortingAlg::BUBBLE))
-	{
-		sorting=arr.bubbleSortTick();
-	}
-	else if (sorting && (mode == SortingAlg::MERGE))
-	{
-		sorting = arr.mergeSortTick();
-	}
-	else if (sorting && (mode == SortingAlg::HEAP))
-	{
-		sorting = arr.heapSortTick();
-	}
-	else if (sorting && (mode == SortingAlg::QUICK))
-	{
-		sorting = arr.quickSortTick();
-	}
-	else if (sorting && (mode == SortingAlg::RESET))
+	if (sorting && (mode == SortingAlg::RESET))
 	{
 		sorting = false;
 		arr.reshuffleArray();
@@ -102,5 +86,9 @@ void update()
 	else if (sorting && (mode == SortingAlg::STOP))
 	{
 		sorting = false;
+	}
+	else if (sorting)
+	{
+		sorting = arr.tick(mode);
 	}
 }
