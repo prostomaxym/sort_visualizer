@@ -1,5 +1,7 @@
-# sort_visualizer
+# Sort visualization
 Sorting algorithms OpenGl/GLut based visualizer.
+Demo video: https://youtu.be/oMZUv49hBjg
+
 
 Features made: 
 * Simple sorting algorithm customizable visualization engine; 
